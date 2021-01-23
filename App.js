@@ -4,10 +4,12 @@ import { createAppContainer } from 'react-navigation';
 import { Provider as RecipesProvider } from './src/context/RecipesContext';
 import IndexScreen from './src/screens/IndexScreen';
 import RecipeScreen from './src/screens/RecipeScreen';
+import RecipeCreateScreen from './src/screens/RecipeCreateScreen';
 
 const navigator = createStackNavigator({
   Index: IndexScreen,
-  Recipe: RecipeScreen
+  Recipe: RecipeScreen,
+  RecipeCreate: RecipeCreateScreen
   }, {
     initialRouteName: 'Index',
     defaultNavigationOptions: {

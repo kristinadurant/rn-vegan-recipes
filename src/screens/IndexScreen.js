@@ -16,7 +16,7 @@ const IndexScreen = ({ navigation }) => {
                 renderItem={({ item }) => {
                     return (
                         <View style={styles.row}>
-                            <TouchableOpacity onPress={() => navigation.navigate('Recipe')}>
+                            <TouchableOpacity onPress={() => navigation.navigate('Recipe', {id: item.id})}>
                                 <Text style={styles.title}>{item.title} - {item.id}</Text>
                             </TouchableOpacity>
                             <TouchableOpacity onPress={() => deleteRecipe(item.id)}>
@@ -27,8 +27,18 @@ const IndexScreen = ({ navigation }) => {
                 }}
             />
         </View>
-    )
-}
+    );
+};
+
+IndexScreen.navigationOptions = ({ navigation }) => {
+    return {
+        headerRight: () => (
+          <TouchableOpacity onPress={() => navigation.navigate('RecipeCreate')}>
+            <Feather name="plus" size={30} />
+          </TouchableOpacity>
+        )
+    };
+};
 
 const styles = StyleSheet.create({
     row: {
