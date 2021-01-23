@@ -11,6 +11,12 @@ const recipeReducer = (state, action) => {
                     content: action.payload.content
                 }
             ];
+        case 'edit_recipe':
+            return state.map((recipe) => {
+                return recipe.id === action.payload.id
+                    ?  action.payload
+                    : recipe;
+            });
         case 'delete_recipe':
             return state.filter((recipe) => recipe.id !== action.payload );
         default:
@@ -25,6 +31,13 @@ const addRecipe = (dispatch) => {
     };  
 };
 
+const editRecipe = (dispatch) => {
+    return (id, title, content, callback) => {
+        dispatch({ type: 'edit_recipe', payload: { id, title, content} });
+        callback();
+    };  
+};
+
 const deleteRecipe = (dispatch) => {
     return (id) => {
         dispatch({ type: 'delete_recipe', payload: id });
@@ -33,6 +46,6 @@ const deleteRecipe = (dispatch) => {
 
 export const { Context, Provider } = createDataContext(
     recipeReducer,
-    { addRecipe, deleteRecipe },
-    []
+    { addRecipe, deleteRecipe, editRecipe },
+    [{ title: 'TEST RECIPE', content: 'TEXT CONTENT'}]
 );

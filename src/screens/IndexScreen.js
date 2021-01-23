@@ -4,7 +4,7 @@ import { Context as RecipesContext} from '../context/RecipesContext';
 import { Feather } from '@expo/vector-icons';
 
 const IndexScreen = ({ navigation }) => {
-    const { state, addRecipe, deleteRecipe } = useContext(RecipesContext);
+    const { state, deleteRecipe } = useContext(RecipesContext);
 
     return (
         <View>
