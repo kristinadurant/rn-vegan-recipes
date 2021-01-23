@@ -9,7 +9,6 @@ const IndexScreen = ({ navigation }) => {
     return (
         <View>
             <Text>Recipes</Text>
-            <Button title="Add Recipe" onPress={addRecipe} />
             <FlatList
                 data={state}
                 keyExtractor={(recipe) => recipe.id}

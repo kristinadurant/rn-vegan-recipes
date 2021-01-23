@@ -19,8 +19,9 @@ const recipeReducer = (state, action) => {
 };
 
 const addRecipe = (dispatch) => {
-    return () => {
+    return (title, content, callback) => {
         dispatch({ type: 'add_recipe', payload: { title, content } });
+        callback();
     };  
 };
 
