@@ -1,10 +1,10 @@
 import React, { useContext } from 'react';
-import { View, Text, FlatList, Button, StyleSheet } from 'react-native';
+import { View, Text, FlatList, Button, TouchableOpacity, StyleSheet } from 'react-native';
 import { Context as RecipesContext} from '../context/RecipesContext';
 import { Feather } from '@expo/vector-icons';
 
-const IndexScreen = () => {
-    const { state, addRecipe } = useContext(RecipesContext);
+const IndexScreen = ({ navigation }) => {
+    const { state, addRecipe, deleteRecipe } = useContext(RecipesContext);
 
     return (
         <View>
@@ -12,12 +12,16 @@ const IndexScreen = () => {
             <Button title="Add Recipe" onPress={addRecipe} />
             <FlatList
                 data={state}
-                keyExtractor={(recipe) => recipe.title}
+                keyExtractor={(recipe) => recipe.id}
                 renderItem={({ item }) => {
                     return (
                         <View style={styles.row}>
-                            <Text style={styles.title}>{item.title}</Text>
-                            <Feather style={styles.icon} name="trash" />
+                            <TouchableOpacity onPress={() => navigation.navigate('Recipe')}>
+                                <Text style={styles.title}>{item.title} - {item.id}</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={() => deleteRecipe(item.id)}>
+                                <Feather style={styles.icon} name="trash" />
+                            </TouchableOpacity>
                         </View>        
                     )
                 }}
