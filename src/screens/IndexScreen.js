@@ -1,10 +1,23 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { View, Text, FlatList, Button, TouchableOpacity, StyleSheet } from 'react-native';
 import { Context as RecipesContext} from '../context/RecipesContext';
 import { Feather } from '@expo/vector-icons';
 
 const IndexScreen = ({ navigation }) => {
-    const { state, deleteRecipe } = useContext(RecipesContext);
+    const { state, deleteRecipe, getRecipe } = useContext(RecipesContext);
+
+    useEffect(() => {
+        getRecipe();
+
+        const listener = navigation.addListener('didFocus', () => {
+            getRecipe();
+        });
+
+        return () => {
+            listener.remove();
+        };
+    }, []);
+
 
     return (
         <View>

@@ -1,16 +1,10 @@
 import createDataContext from './createDataContext';
+import jsonServer from '../api/jsonServer';
 
 const recipeReducer = (state, action) => {
     switch (action.type) {
-        case 'add_recipe':
-            return [
-                ...state, 
-                {
-                    id: `R${Math.floor(Math.random() * 999999)}`,
-                    title: action.payload.title,
-                    content: action.payload.content
-                }
-            ];
+        case 'get_recipe':
+            return action.payload;
         case 'edit_recipe':
             return state.map((recipe) => {
                 return recipe.id === action.payload.id
@@ -24,28 +18,36 @@ const recipeReducer = (state, action) => {
     }
 };
 
-const addRecipe = (dispatch) => {
-    return (title, content, callback) => {
-        dispatch({ type: 'add_recipe', payload: { title, content } });
+const getRecipe = dispatch => {
+    return async () => {
+        const response = await jsonServer.get('/recipe');
+        dispatch({ type: 'get_recipe', payload: response.data});
+    }
+}
+
+const addRecipe = () => {
+    return async (title, content) => {
+        await jsonServer.post('/recipe', {title, content});
+    };  
+};
+
+const editRecipe = dispatch => {
+    return async (id, title, content, callback) => {
+        await jsonServer.put(`/recipe/${id}`, { title, content });
+        dispatch({ type: 'edit_recipe', payload: { title, content} });
         callback();
     };  
 };
 
-const editRecipe = (dispatch) => {
-    return (id, title, content, callback) => {
-        dispatch({ type: 'edit_recipe', payload: { id, title, content} });
-        callback();
-    };  
-};
-
-const deleteRecipe = (dispatch) => {
-    return (id) => {
+const deleteRecipe = dispatch => {
+    return async (id) => {
+        await jsonServer.delete(`/recipe/${id}`);
         dispatch({ type: 'delete_recipe', payload: id });
     };  
 };
 
 export const { Context, Provider } = createDataContext(
     recipeReducer,
-    { addRecipe, deleteRecipe, editRecipe },
-    [{ title: 'TEST RECIPE', content: 'TEXT CONTENT'}]
+    { addRecipe, deleteRecipe, editRecipe, getRecipe },
+    []
 );

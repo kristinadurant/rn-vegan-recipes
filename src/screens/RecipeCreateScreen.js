@@ -1,10 +1,8 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { Context } from '../context/RecipesContext';
 import RecipeForm from '../components/RecipeForm';
 
 const RecipeCreateScreen = ({ navigation }) => {
-    const [title, setTitle] = useState('');
-    const [content, setContent] = useState('');
     const { addRecipe } = useContext(Context);
     const labels = {
         title: 'Add Title',

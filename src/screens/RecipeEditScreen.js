@@ -3,7 +3,6 @@ import { Context } from '../context/RecipesContext';
 import RecipeForm from '../components/RecipeForm';
 
 const RecipeEditScreen = ({ navigation }) => {   
-    console.log(navigation)
     const { state, editRecipe } = useContext(Context);
     const id = navigation.getParam('id')
     const recipe = state.find(recipe => recipe.id === id);
